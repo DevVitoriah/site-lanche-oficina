@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oficina do Sabor - Pizzas Artesanais</title>
+    <meta name="description" content="Pizzas artesanais com ingredientes frescos e sabores únicos. Peça agora e receba em casa!">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo-circle">
+                        <span>O</span>
+                    </div>
+                    <div class="logo-text">
+                        <h1>Oficina do Sabor</h1>
+                        <p>Pizzas Artesanais</p>
+                    </div>
+                </div>
+                <button class="cart-button" id="cartButton">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                    </svg>
+                    Carrinho
+                    <span class="cart-badge" id="cartBadge" style="display: none;">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-sidebar-content">
+            <div class="cart-header">
+                <div>
+                    <h2>Seu Carrinho</h2>
+                    <p class="cart-description" id="cartDescription">Seu carrinho está vazio</p>
+                </div>
+                <button class="close-button" id="closeCart">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="cart-items" id="cartItems">
+                <div class="empty-cart">
+                    <svg class="icon-large" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                    </svg>
+                    <p>Adicione pizzas ao seu carrinho</p>
+                </div>
+            </div>
+
+            <div class="cart-footer" id="cartFooter" style="display: none;">
+                <div class="cart-total">
+                    <span>Total:</span>
+                    <span class="total-price" id="totalPrice">R$ 0,00</span>
+                </div>
+                <!-- Changed button text to "Finalizar Pedido" and removed WhatsApp icon -->
+                <button class="checkout-button" onclick="openCheckoutModal()">
+                    Finalizar Pedido
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="cart-overlay" id="cartOverlay"></div>
+
+    <!-- Checkout Modal -->
+    <div class="modal-overlay" id="checkoutModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title-section">
+                    <svg class="icon-modal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    <div>
+                        <h3>Finalizar Pedido</h3>
+                        <p class="modal-subtitle">Preencha seus dados para enviar o pedido via WhatsApp</p>
+                    </div>
+                </div>
+                <button class="modal-close-button" onclick="closeCheckoutModal()">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            
+            <form class="checkout-form" id="checkoutForm" onsubmit="submitOrder(event)">
+                <div class="form-group">
+                    <label class="form-label">
+                        <svg class="icon-small" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        Nome Completo *
+                    </label>
+                    <input 
+                        type="text" 
+                        class="form-input" 
+                        id="customerName" 
+                        placeholder="Seu nome" 
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <svg class="icon-small" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                        </svg>
+                        WhatsApp *
+                    </label>
+                    <input 
+                        type="tel" 
+                        class="form-input" 
+                        id="customerPhone" 
+                        placeholder="(00) 00000-0000" 
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <svg class="icon-small" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                            <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                        Endereço Completo *
+                    </label>
+                    <input 
+                        type="text" 
+                        class="form-input" 
+                        id="customerAddress" 
+                        placeholder="Rua, número, bairro" 
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Complemento</label>
+                    <input 
+                        type="text" 
+                        class="form-input" 
+                        id="customerComplement" 
+                        placeholder="Apartamento, bloco, referência"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Observações</label>
+                    <textarea 
+                        class="form-textarea" 
+                        id="customerNotes" 
+                        placeholder="Alguma observação sobre o pedido?"
+                        rows="3"
+                    ></textarea>
+                </div>
+                
+
+                <div class="modal-total">
+                    <span>Total do Pedido</span>
+                    <span class="modal-total-price" id="modalTotalPrice">R$ 0,00</span>
+                </div>
+
+                <button type="submit" class="whatsapp-button">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Enviar pelo WhatsApp
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h2 class="hero-title">Pizzas <span class="highlight">Artesanais</span></h2>
+            <p class="hero-subtitle">Sabores únicos, ingredientes frescos e massa artesanal preparada diariamente</p>
+            <div class="hero-info">
+                <div class="info-item">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    <span>Seg-Dom: 18h-23h</span>
+                </div>
+                <div class="info-item">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                    </svg>
+                    <span>(11) 99999-9999</span>
+                </div>
+                <div class="info-item">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                        <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                    <span>Delivery em toda cidade</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section class="menu">
+        <div class="container">
+            <div class="section-header">
+                <h3 class="section-title">Nosso Cardápio</h3>
+                <div class="section-divider"></div>
+            </div>
+
+            <div class="pizza-grid" id="pizzaGrid">
+                <!-- Pizzas will be dynamically inserted here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h4>Oficina do Sabor</h4>
+                    <p>Pizzas artesanais feitas com amor e ingredientes selecionados</p>
+                </div>
+                <div class="footer-column">
+                    <h4>Horário de Funcionamento</h4>
+                    <p>Segunda a Domingo</p>
+                    <p class="highlight-text">18:00 - 23:00</p>
+                </div>
+                <div class="footer-column">
+                    <h4>Contato</h4>
+                    <p>
+                        <svg class="icon-small" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 16.92v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        (11) 99999-9999
+                    </p>
+                    <p>
+                        <svg class="icon-small" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                            <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                        São Paulo, SP
+                    </p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Oficina do Sabor. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
