@@ -20,7 +20,7 @@ Interface moderna e responsiva, com foco em usabilidade e conversão de pedidos 
 - *HTML5* – Estrutura do site  
 - *CSS3* – Estilização e layout responsivo  
 - *JavaScript (Vanilla JS)* – Lógica do carrinho e integração com WhatsApp  
-- *Node.js* – Gerenciamento de dependências  
+- *Script.js* – Gerenciamento de dependências  
 - *package.json* – Configuração do projeto  
 
 ## 📦 Estrutura do Projeto
